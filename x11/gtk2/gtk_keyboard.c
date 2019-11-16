@@ -50,7 +50,7 @@ static const UINT8 xkeyconv_jis[256] = {
 		0x08,0x09,0x27,0x26,0x30,0x0b,0x31,0x32,
 	/*	  0 ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7		; 0x30 */
 		0x0a,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
-	/*	  8 ,  9 ,  ; ,  : ,  < ,  = ,  > ,  ? 		; 0x38 */
+	/*	  8 ,  9 ,  : ,  ; ,  < ,  = ,  > ,  ? 		; 0x38 */
 		0x08,0x09,0x27,0x26,0x30,0x0b,0x31,0x32,
 	/*	  @ ,  A ,  B ,  C ,  D ,  E ,  F ,  G		; 0x40 */
 		0x1a,0x1d,0x2d,0x2b,0x1f,0x12,0x20,0x21,
@@ -102,6 +102,76 @@ static const UINT8 xkeyconv_jis[256] = {
 		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC
 };
 
+/* identical to xkeyconv_jis except 0x80 added whenever */
+/* shift state differs between jp and us layout */
+/* to use automatic shift key insertion */
+static const UINT8 xkeyconv_us[256] = {
+	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0x00 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0x08 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0x10 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0x18 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	 SPC,  ! ,  " ,  # ,  $ ,  % ,  & ,  '		; 0x20 */
+		0x34,0x01,0x02,0x03,0x04,0x05,0x06,0x87,
+	/*	  ( ,  ) ,  * ,  + ,  , ,  - ,  . ,  /		; 0x28 */
+		0x08,0x09,0x27,0x26,0x30,0x0b,0x31,0x32,
+	/*	  0 ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7		; 0x30 */
+		0x0a,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
+	/*	  8 ,  9 ,  : ,  ; ,  < ,  = ,  > ,  ? 		; 0x38 */
+		0x08,0x09,0xa7,0x26,0x30,0x8b,0x31,0x32,
+	/*	  @ ,  A ,  B ,  C ,  D ,  E ,  F ,  G		; 0x40 */
+		0x9a,0x1d,0x2d,0x2b,0x1f,0x12,0x20,0x21,
+	/*	  H ,  I ,  J ,  K ,  L ,  M ,  N ,  O		; 0x48 */
+		0x22,0x17,0x23,0x24,0x25,0x2f,0x2e,0x18,
+	/*	  P ,  Q ,  R ,  S ,  T ,  U ,  V ,  W		; 0x50 */
+		0x19,0x10,0x13,0x1e,0x14,0x16,0x2c,0x11,
+	/*	  X ,  Y ,  Z ,  [ ,  \ ,  ] ,  ^ ,  _		; 0x58 */
+		0x2a,0x15,0x29,0x1b,0x0d,0x28,0x8c,0x33,
+	/*	  ` ,  a ,  b ,  c ,  d ,  e ,  f ,  g		; 0x60 */
+		0x8c,0x1d,0x2d,0x2b,0x1f,0x12,0x20,0x21,
+	/*	  h ,  i ,  j ,  k ,  l ,  m ,  n ,  o		; 0x68 */
+		0x22,0x17,0x23,0x24,0x25,0x2f,0x2e,0x18,
+	/*	  p ,  q ,  r ,  s ,  t ,  u ,  v ,  w		; 0x70 */
+		0x19,0x10,0x13,0x1e,0x14,0x16,0x2c,0x11,
+	/*	  x ,  y ,  z ,  { ,  | ,  } ,  ~ ,   		; 0x78 */
+		0x2a,0x15,0x29,0x1b,0x0d,0x28,0x1a,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,  		; 0x80 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,   		; 0x88 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,  		; 0x90 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,   		; 0x98 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0xa0 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,   		; 0xa8 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0xb0 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,   		; 0xb8 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0xc0 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,   		; 0xc8 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0xd0 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,   		; 0xd8 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0xe0 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,   		; 0xe8 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0xf0 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
+	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0xf8 */
+		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC
+};
+#if 0
 static const UINT8 xkeyconv_ascii[256] = {
 	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0x00 */
 		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
@@ -168,7 +238,7 @@ static const UINT8 xkeyconv_ascii[256] = {
 	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0xf8 */
 		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
 };
-
+#endif
 static const UINT8 xkeyconv_misc[256] = {
 	/*	    ,    ,    ,    ,    ,    ,    ,  		; 0x00 */
 		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
@@ -229,7 +299,7 @@ static const UINT8 xkeyconv_misc[256] = {
 	/*	    ,SFTL,SFTR,CTLL,CTLR,CAPS,    ,METL		; 0xe0 */
 		  NC,0x70,0x75,0x74,0x73,0x71,  NC,0x51,
 	/*	METR,ALTL,ALTR,    ,    ,    ,    ,    		; 0xe8 */
-		0x35,0x51,0x35,  NC,  NC,  NC,  NC,  NC,
+		0x35,0x73,0x73,  NC,  NC,  NC,  NC,  NC,
 	/*	    ,    ,    ,    ,    ,    ,    ,    		; 0xf0 */
 		  NC,  NC,  NC,  NC,  NC,  NC,  NC,  NC,
 	/*	    ,    ,    ,    ,    ,    ,    , DEL		; 0xf8 */
@@ -245,7 +315,7 @@ kbdmng_init(void)
 
 	shift_stat = 0x00;
 	if (np2oscfg.KEYBOARD == KEY_KEY101)
-		xkeyconv = xkeyconv_ascii;
+		xkeyconv = xkeyconv_us;
 	else
 		xkeyconv = xkeyconv_jis;
 

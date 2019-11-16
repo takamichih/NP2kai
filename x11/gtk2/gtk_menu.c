@@ -2129,7 +2129,7 @@ cb_kbtype(gint idx)
 	}
 	if (np2oscfg.KEYBOARD != value) {
 		np2oscfg.KEYBOARD = value;
-		beep_setvol(value);
+		kbdmng_init();
 		sysmng_update(SYS_UPDATEOSCFG);
 	}
 }
